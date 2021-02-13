@@ -47,4 +47,98 @@ git clean -f [MAKE sure your actual files are in stage area.]
     (use "git add <file>..." to include in what will be committed)
 
           1.txt 
-  ==> git clean -f [It will only remove 1.txt]        
+  ==> git clean -f [It will only remove 1.txt]  
+  
+ git clean -d -f [it cleans untracked diretories]
+ 
+ Rename a file in remote repo:
+ git mv <src> <tar> 
+ git commit -m "rename file"
+ git push
+ 
+ Restore a perticular file
+ git log 
+ >>> Pick the respective commit Id which is gone be restore to current local repo
+ 
+ git checkout <commit Id> <filename>
+ 
+   out put>>>
+   
+      Author: divang <divang.s@gmail.com>
+      labsuser@ubuntu1804:~/handson-basic$ git log -p
+      commit bd47d5f5305cd77ec9fee4fb855ae63d0c240819 (HEAD -> main, origin/main)
+      Author: divang <divang.s@gmail.com>
+      Date:   Sat Feb 13 15:59:39 2021 +0000
+
+          feature 1
+
+     diff --git a/F1.java b/F1.java
+     index e69de29..6a11bb3 100644
+   
+    git checkout 5913331a3c5bf92f07d445cda60243a3d9a2c180 F1.java 
+
+ 
+ Merge conflict manually:
+ Second user:
+  git pull
+  vi F1.java[ add F11.1 feature ]
+  git add F1.java
+  git commit -m "add F11.1 feature"
+ 
+ First user:
+ [After second user pushed the code, but first user has not pull the latest code]
+ vi F1.java [add F11.0 feature]
+ git add F1.java
+ git commit -m " added F11.0 feature"
+ git push
+ 
+     output>>> 
+          To https://github.com/github06022021/handson-basic.git
+           ! [rejected]        main -> main (non-fast-forward)
+          error: failed to push some refs to 'https://github.com/github06022021/handson-basic.git'
+          hint: Updates were rejected because the tip of your current branch is behind
+          hint: its remote counterpart. Integrate the remote changes (e.g.
+          hint: 'git pull ...') before pushing again.
+          hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+  git pull
+
+    outpull>>>
+      Auto-merging F1.java
+      CONFLICT (content): Merge conflict in F1.java
+      Automatic merge failed; fix conflicts and then commit the result.
+  
+  git mergetool
+    output>>>
+      Merging:
+      F1.java
+
+      Normal merge conflict for 'F1.java':
+        {local}: modified file
+        {remote}: modified file
+      Hit return to start merge resolution tool (vimdiff): 
+   
+   [use your vi knowledge to manually clean the file]
+   Diff output:
+   <<<<<<<<<Head   
+   <your local changes1>
+   <your local changes2>
+   <your local changes3>
+   "=========================="
+   <remote changes2>
+   <remote changes2>
+   <<<<<<<<<<< <Remote commit Id>
+   
+   [After manual changes are done, make sure to save that file.]
+  
+  git commit
+  git push
+   
+  [If your last merge has failed and getting the below error ===>] 
+    output >>> 
+        error: You have not concluded your merge (MERGE_HEAD exists).
+          hint: Please, commit your changes before merging.
+          fatal: Exiting because of unfinished merge.
+
+  $git reset --merge [it will revert back the last merge]
+   
